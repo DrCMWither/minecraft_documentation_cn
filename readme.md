@@ -9,10 +9,8 @@ minecraft基岩版文档中文翻译，文档来源：[Mojang/bedrock-samples](h
 - [1.21.70.3](1.21.70.3/index.html)
 - [1.21.80.3](1.21.80.3/index.html)
 - [1.21.90.3](1.21.90.3/index.html)
-## 本仓库托管的GitHub pages
-[minecraft_documentation_cn](https://bleakzun.github.io/minecraft_documentation_cn/)
 ## 贡献者
-- 此文档由[CMWither](https://github.com/DrCMWither)与[FLORA](https://github.com/Bleakzun)一同翻译(可加入翻译组)
+- 此文档由[幻想边境社团](https://github.com/GensouEdge)翻译(可加入翻译组)
 - 部分翻译取自[bedrock.dev](https://bedrock.dev/zh)
 ## 许可证
 - 本文档遵循[CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/deed.zh)协议
@@ -28,3 +26,4 @@ minecraft基岩版文档中文翻译，文档来源：[Mojang/bedrock-samples](h
   - `minecraft:equippable`中的`on_equip`和`on_unequip`的类型应该是`JSON对象`，但在文档原文中显示的类型却是`字符串`。
   - 幽默Mojang在正文中会使用`<>`例如：`definitions/entity/<entity_name>.json` 但浏览器会显示为： `definitions/entity/.json`，因为浏览器会把`<>`和其中的内容当作HTML标签而不显示在页面上。明显`<entity_name>`被当作标签屏蔽了。那么这种情况我们可以用转义符`&lt;`和`&gt;`表示`<`和`>`
   - 想帮我们找出类似的其它问题？请发**Issue**
+
