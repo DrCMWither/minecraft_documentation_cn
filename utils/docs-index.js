@@ -8,45 +8,55 @@ const versions = ["1.18.10",
                 ];
 const cssPath = "../styles/styles.css";
 
+const cache = new Map();
+
 async function fetchDocs(version) {
+    if (cache.has(version)) {
+        return cache.get(version);
+    }
     const res = await fetch(`${version}/`);
     const text = await res.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
-
     const links = [...doc.querySelectorAll("a")]
         .map(a => a.getAttribute("href"))
         .filter(h => h && h.endsWith(".html"))
         .map(h => h.split("/").pop());
-
-    return links.map(h => ({
+    const docs = links.map(h => ({
         name: decodeURIComponent(h.replace(".html", "")),
         path: `${version}/${h}`
     }));
+    cache.set(version, docs);
+    return docs;
 }
 
 async function buildMenu() {
     const menu = document.getElementById("menu");
 
-    menu.innerHTML = "<ul>" +
-        (await Promise.all(versions.map(async v => {
-            const docs = await fetchDocs(v);
-            const items = docs.map(d=>`<li><a href="${d.path}" target="docFrame" data-path="${d.path}">${d.name}</a></li>`).join("");
-            return `<li>
-                <div class="version-title" tabindex="0">${v}</div>
-                <ul class="version-list">${items}</ul>
-            </li>`;
-        }))).join("") + "</ul>";
+    const menuContent = await Promise.all(versions.map(async v => {
+        const docs = await fetchDocs(v);
+        const items = docs.map(d => `<li><a href="${d.path}" target="docFrame" data-path="${d.path}">${d.name}</a></li>`).join("");
+        return `<li>
+            <div class="version-title" tabindex="0">${v}</div>
+            <ul class="version-list">${items}</ul>
+        </li>`;
+    }));
+    menu.innerHTML = "<ul>" + menuContent.join("") + "</ul>";
 
     const expanded = JSON.parse(localStorage.getItem("docsMenu.expanded")||"[]");
-    menu.querySelectorAll(".version-title").forEach(title=>{
+    menu.querySelectorAll(".version-title").forEach(title => {
         const list = title.nextElementSibling;
         if(expanded.includes(title.textContent)){
             title.classList.add("expanded");
             list.classList.add("visible");
         }
-        title.addEventListener("click", ()=>toggle(title));
-        title.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" ") { e.preventDefault(); toggle(title); } });
+        title.addEventListener("click", () => setTimeout(() => toggle(title), 0));
+        title.addEventListener("keydown", e => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setTimeout(() => toggle(title), 0);
+            }
+        });
     });
 
     function toggle(title) {
@@ -141,5 +151,8 @@ async function loadDocIntoIframe(path) {
     }
 }
 
-
-buildMenu();
+if ('requestIdleCallback' in window) {
+    requestIdleCallback(buildMenu);
+} else {
+    buildMenu();
+}

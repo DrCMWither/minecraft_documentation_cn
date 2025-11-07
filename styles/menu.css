@@ -16,8 +16,9 @@ body {
     color: #333;
     padding: 10px;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
     font-size: 30px;
+    will-change: transform;
 }
 #menu-togggle:hover {
     background: #e0e0e0;
@@ -29,6 +30,8 @@ body {
     border-right: 1px solid #ccc;
     padding: 0.8em;
     background: #fafafa;
+    transition: transform 0.3s ease;
+    will-change: transform;
 }
 
 @media (max-width: 1000px) {
@@ -52,6 +55,7 @@ body {
         width: 100%;
         margin-left: 0;
         transition: margin-left 0.3s ease;
+        will-change: margin-left;
     }
     #docFrame.active {
         margin-left: 80%;
