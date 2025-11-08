@@ -8,10 +8,16 @@
         <link rel="stylesheet" href="styles/menu.css">
     </head>
     <body>
-        <button id="menu-toggle" aria-label="Toggle menu">☰</button>
-        <div id="menu"></div>
-        <iframe name="docFrame" id="docFrame" loading="lazy" src="initial-page.html"></iframe>
-
+        <div id="menu-container">
+            <button id="menu-toggle" aria-label="Toggle menu">☰</button>
+            <a href="/" target="_blank" rel="noopener noreferrer">
+                <img src="img/logo-pixel.png" alt="跳转图片" style="width:10%; border-radius:8px;">
+            </a>
+        </div>
+        <div id="content">
+            <div id="menu"></div>
+            <iframe name="docFrame" id="docFrame" loading="lazy" src="initial-page.html"></iframe>
+        </div>
         <script type="module" src="utils/docs-index.js" defer></script>
         <script src="utils/menu-collapse.js" defer></script>
     </body>
